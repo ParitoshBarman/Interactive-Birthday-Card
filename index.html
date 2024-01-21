@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Birthday Card</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .content {
+            max-width: 700px;
+            margin: auto;
+            border: 1px solid red;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        input,
+        textarea {
+            margin: 20px;
+            font-size: 16px;
+        }
+
+        .visiblearea {
+            min-height: 250px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: pink;
+        }
+        .visiblearea p, h1{
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    // Code goes here
+
+    // BirthdayCard Component
+    function BirthdayCard() {
+        const [recipientName, recipientNameUpdate] = React.useState("");
+        const [customMessage, customMessageUpdate] = React.useState("");
+
+        function readInput(event) {
+
+            if (event.target.name == "name") {
+                recipientNameUpdate(event.target.value);
+
+                // Advanced Challenge logic
+                if (event.target.value.length > 12) {
+                    document.querySelector(".visiblearea").style.backgroundColor = "red";
+                } else if (event.target.value.length > 10) {
+                    document.querySelector(".visiblearea").style.backgroundColor = "skyblue";
+                } else if (event.target.value.length > 7) {
+                    document.querySelector(".visiblearea").style.backgroundColor = "green";
+                } else if (event.target.value.length > 4) {
+                    document.querySelector(".visiblearea").style.backgroundColor = "yellow";
+                }
+            } else {
+                customMessageUpdate(event.target.value);
+            }
+        }
+
+        return (
+            <>
+                <h1>Birthday Card</h1>
+                <div className="content">
+                    <div className="inputsection">
+                        <input name="name" type="text" onChange={readInput} placeholder="Enter Your Name" />
+                        <br />
+                        <textarea name="msg" type="text" onChange={readInput} placeholder="Enter Massage here" />
+                    </div>
+                    <div class="visiblearea">
+                        <h1>Happy Birthday {recipientName}</h1>
+                        <p>{customMessage}</p>
+
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+
+    // main app
+    function App() {
+        return (
+            <>
+                <BirthdayCard />
+            </>
+        );
+    }
+
+
+
+    // rendering Element
+    const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+    rootElement.render(<App />);
+</script>
+
+</html>
